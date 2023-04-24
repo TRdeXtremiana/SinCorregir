@@ -142,8 +142,7 @@ class Persona
             return false;
         }
 
-        $this->pwd = $pwd;
-
+        $this->pwd = password_hash($pwd, PASSWORD_DEFAULT);
         return $this;
     }
 

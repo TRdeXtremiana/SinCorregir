@@ -1,7 +1,9 @@
 <?php
 
 namespace app\conf\conexiones\core;
+
 use config;
+
 require_once __DIR__ . '/../app/conf/config.inc';
 
 class ConexionBd

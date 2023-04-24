@@ -6,12 +6,12 @@ use app\conf\conexiones\core\ConexionBd;
 
 class ClientesRepositorio
 {
-    public function loginSQL(string $correo, string $contraseña): bool
+    public function loginSQL(string $correo, string $contraseña): array|false
     {
         $sql = 'SELECT eCorreo, pass
                 FROM sesion
-                WHERE eCorreo = :correo AND pass = :contraseña';
-
+                WHERE eCorreo = :correo';
+        // die(var_dump(password_hash($contraseña, PASSWORD_DEFAULT)));
         require_once __DIR__ . '/../../core/conexionBd.inc';
 
         try {
@@ -19,16 +19,16 @@ class ClientesRepositorio
             $snt = $con->prepare($sql);
 
             $snt->bindValue(':correo', $correo);
-            $snt->bindValue(':contraseña', $contraseña);
 
             $snt->execute();
 
             $sesion = $snt->fetch(\PDO::FETCH_ASSOC); //devuelve 1 fila (fetch)
+            //var_dump($sesion);
 
             if (empty($sesion)) {
                 return false;
             } else {
-                return true;
+                return $sesion;
             }
         } catch (\PDOException $ex) {
             throw $ex;

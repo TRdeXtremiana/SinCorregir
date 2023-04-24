@@ -9,17 +9,20 @@ class formulariosController
 {
     public function login()
     {
-        require __DIR__ . '/../../app/plantillas/login.php';
-
         if (isset($_POST['loginOK'])) {
             // $email = $_POST['eCorreo'];
             // $pass = $_POST['password'];
+            $sesion = (new ClientesRepositorio())->loginSQL($_POST['eCorreo'], $_POST['password']);
+            if ($sesion !== false) {
+                if (password_verify($_POST['password'], $sesion['pass'])) {
 
-            if ((new ClientesRepositorio())->loginSQL($_POST['eCorreo'], $_POST['password'])) {
-                $_SESSION['usuario'] === 'cliente';
-                require_once __DIR__ . '/../../app/plantillas/cliente.php';
+                    $_SESSION['usuario'] =
+                        'cliente';
+                    require_once __DIR__ . '/../../app/plantillas/cliente.php';
+                }
             }
         }
+        require __DIR__ . '/../../app/plantillas/login.php';
     }
 
     public function registroCli()
