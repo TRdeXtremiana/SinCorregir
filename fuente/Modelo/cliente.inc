@@ -11,12 +11,12 @@ class Cliente extends Persona
     private int $idCliente;
     private string $documento;
     private tipoDocumento $tipo;
-    private string $nacionalidad;
+    private nacionalidades $nacionalidad;
 
-    public function __construct(string $nombre, string $apellido, string $domicilio, string $tlfno, string $eCorreo, string $pwd, string $rol = 'cliente', string $documento, string $tipo, string $nacionalidad)
+    public function __construct(string $nombre, string $apellido, string $domicilio, string $tlfno, string $eCorreo, string $pwd, string $documento, tipoDocumento $tipo, nacionalidades $nacionalidad)
     {
         try {
-            parent::__construct($nombre, $apellido, $domicilio, $tlfno, $eCorreo, $pwd, $rol);
+            parent::__construct($nombre, $apellido, $domicilio, $tlfno, $eCorreo, $pwd);
         } catch (AppException $th) {
             $error = $th->getError();
         }
@@ -63,8 +63,7 @@ class Cliente extends Persona
         $dniRegex = '/^[0-9]{8}[A-Z]$/';
         $nieRegex = '/^[XYZ][0-9]{7}[TRWAGMYFPDXBNJZSQVHLCKE]$/i';
 
-        if (!preg_match($dniRegex, $documento) || !preg_match($nieRegex, $documento)) {
-            // throw new Exception("El documento no es válido");
+        if (!preg_match($dniRegex, $documento) && !preg_match($nieRegex, $documento)) {
             return false;
         }
 

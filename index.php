@@ -4,6 +4,8 @@ declare(strict_types=1);
 session_start();
 error_reporting(E_ALL);
 
+$_SESSION['usuario'] = 'anonimo';
+
 function addFuentes(string $clase): void
 {
   if (strpos($clase, 'app\\AlquilerCoches\\') === 0) {

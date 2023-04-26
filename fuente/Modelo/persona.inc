@@ -12,9 +12,9 @@ class Persona
     private string $tlfno;
     private string $eCorreo;
     private string $pwd;
-    private string $rol;
+    private string $rol = 'cliente';
 
-    public function __construct(string $nombre, string $apellido, string $domicilio, string $tlfno, string $eCorreo, string $pwd, string $rol)
+    public function __construct(string $nombre, string $apellido, string $domicilio, string $tlfno, string $eCorreo, string $pwd)
     {
 
         if (!$this->setNombre($nombre)) {
@@ -41,9 +41,9 @@ class Persona
             $error["contraseña"] = "La contraseña no es valida";
         }
 
-        if (!$this->setRol($rol)) {
-            $error["rol"] = "Ese rol no es valido";
-        }
+        // if (!$this->setRol($rol)) {
+        //     $error["rol"] = "Ese rol no es valido";
+        // }
 
         if (isset($error)) {
             throw new AppException($error, 'Hay errores en los datos de la persona');
@@ -87,7 +87,7 @@ class Persona
 
     public function setDomicilio($domicilio)
     {
-        $expReg = '/^(calle|carretera|diagonal|paseo|avenida)\\s\\d{2}\\s#\\d{2}-\\d{2}\\s[a-zA-Z\\s]+$/';
+        $expReg = '/^(calle|carretera|diagonal|paseo|avenida)\\s[a-zA-Z\\s]+$/';
 
         if (!preg_match($expReg, $domicilio)) {
             return false;
@@ -118,13 +118,14 @@ class Persona
         return $this->eCorreo;
     }
 
-    public function setECorreo($eCorreo)
+    public function setECorreo(string $eCorreo)
     {
         if (!filter_var($eCorreo, FILTER_VALIDATE_EMAIL)) {
             return false;
         }
 
         $this->eCorreo = $eCorreo;
+        return true;
     }
 
     public function getPwd()
@@ -134,8 +135,8 @@ class Persona
 
     public function setPwd($pwd)
     {
-        $expReg = '/^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/';
-        //Entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula.
+        $expReg = '/^(?=\w*\d)(?=\w*[a-z])\S{3,16}$/';
+        //Entre 3 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula.
         //w3Unpocodet0d0
 
         if (!preg_match($expReg, $pwd)) {

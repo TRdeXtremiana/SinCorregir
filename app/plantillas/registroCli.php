@@ -23,6 +23,11 @@
         <br>
 
         <label for="domicilio">Domicilio:</label>
+
+        <label for="ciudad">Ciudad:
+            <input type="text" name="ciudad" id="ciudad" required>
+        </label>
+
         <select name="tipo_via" id="tipo_via">
             <option value="avenida">Avenida</option>
             <option value="calle">Calle</option>
@@ -33,9 +38,6 @@
 
         <input type="text" name="domicilio" id="domicilio" required>
         <br>
-        <label for="ciudad">Ciudad:
-            <input type="text" name="ciudad" id="ciudad" required>
-        </label>
 
         <label for="telefono">Teléfono:</label>
         <input type="tel" name="telefono" id="telefono" required>
@@ -45,23 +47,31 @@
         <input type="email" name="email" id="email" required>
         <br>
 
-        <label for="documento">Documento:</label>
-        <select name="tipo" id="tipo">
-            <option value="dni">DNI</option>
-            <option value="nie">NIE</option>
-            <option value="pasaporte">Pasaporte</option>
-        </select>
+        <label>Documento:
+            <br>
+            <select name="tipo">
+                <?php foreach ($tipos as $tipo) : ?>
+                    <option value="<?= $tipo->name ?>"><?= $tipo->name ?></option>
+                <?php endforeach ?>
+            </select>
 
-        <input type="text" name="documento" id="documento" required>
-        <br>
 
-        <label for="nacionalidad">Nacionalidad:</label>
-        <input type="text" name="nacionalidad" id="nacionalidad" required>
-        <br>
+            <input type="text" name="documento" id="documento" required>
+        </label>
 
-        <label for="password">Contraseña:</label>
-        <input type="password" name="password" id="password" required>
-        <br>
+        <label>Nacionalidad:
+            <br>
+            <select name="nacionalidad">
+                <?php foreach ($nacionalidades as $nacionalidad) : ?>
+                    <option value="<?= $nacionalidad->name ?>"><?= $nacionalidad->name ?></option>
+                <?php endforeach ?>
+            </select>
+        </label>
+
+        <label for="password">Contraseña:
+            <br>
+            <input type="password" name="password" id="password" required>
+        </label>
 
         <input type="submit" value="Enviar" name="registroOK">
     </form>

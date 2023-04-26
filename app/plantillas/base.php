@@ -31,7 +31,7 @@
     <?php if ($_SESSION['usuario'] === 'anonimo') : ?>
       <a href="index.php?ctl=login">Log-in</a> |
     <?php else : ?>
-      <a href="index.php?ctl=inicio">Log-out</a> |
+      <a href="index.php?ctl=logout">Log-out</a> |
     <?php endif; ?>
     <!-- En general, la mayoría de los enlaces serán a la página index.php
            y una asignación a la variable 'ctl'. El valor de la variable deberá

@@ -30,7 +30,7 @@
         </fieldset>
     </form>
 
-    <a href="index.php?ctl=registro"> <input type="submit" value="No estoy registrado"> </a>
+    <a href="index.php?ctl=registro"> No estoy registrado </a>
 
 </body>
 

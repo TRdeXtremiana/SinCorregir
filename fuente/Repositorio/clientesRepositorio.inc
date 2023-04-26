@@ -6,7 +6,7 @@ use app\conf\conexiones\core\ConexionBd;
 
 class ClientesRepositorio
 {
-    public function loginSQL(string $correo, string $contraseña): array|false
+    public function loginSQL(string $correo): array|false
     {
         $sql = 'SELECT eCorreo, pass
                 FROM sesion
@@ -70,7 +70,7 @@ class ClientesRepositorio
                 $snt->bindValue(':nacionalidad', $nacionalidad);
 
                 if ($snt->execute()) {
-                    return $con->commit();
+                    return true;
                 }
             }
         } catch (\PDOException $ex) {
@@ -114,6 +114,32 @@ class ClientesRepositorio
                     return $con->commit();
                 }
             }
+        } catch (\PDOException $ex) {
+            throw $ex;
+        } finally {
+            unset($snt);
+            unset($con);
+        }
+    }
+
+    public function datosCliente(string $eCorreo): array
+    {
+        $sql = 'SELECT *
+                FROM cliente
+                WHERE eCorreo = :eCorreo';
+
+        require_once __DIR__ . '/../../core/conexionBd.inc';
+
+        try {
+            $con = (new ConexionBd())->getConexion();
+            $snt = $con->prepare($sql);
+
+            $snt->bindValue(':eCorreo', $eCorreo);
+
+            $snt->execute();
+
+            $datos = $snt->fetch(\PDO::FETCH_ASSOC);
+            return $datos;
         } catch (\PDOException $ex) {
             throw $ex;
         } finally {

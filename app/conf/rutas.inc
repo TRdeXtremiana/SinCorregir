@@ -17,5 +17,8 @@ $mapeoRutas =
     'inicio' => array('controller' => 'app\AlquilerCoches\controlador\DefaultController', 'action' => 'inicio'),
 
     'login' => array('controller' => 'app\AlquilerCoches\controlador\formulariosController', 'action' => 'login'),
+    'logout' => array('controller' => 'app\AlquilerCoches\controlador\formulariosController', 'action' => 'logout'),
+
     'registro' => array('controller' => 'app\AlquilerCoches\controlador\formulariosController', 'action' => 'registroCli'),
+    'cliente' => array('controller' => 'app\AlquilerCoches\controlador\ClientesController', 'action' => 'coches'),
   );

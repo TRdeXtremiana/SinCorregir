@@ -17,4 +17,15 @@ enum Nacionalidades
     case China;
     case Japonesa;
     case Andorrana;
+
+
+    public static function isNacionalidad(string $nacionalidad): self|bool
+    {
+        foreach (self::cases() as $status) {
+            if ($nacionalidad === $status->name) {
+                return $status;
+            }
+        }
+        return false;
+    }
 }
