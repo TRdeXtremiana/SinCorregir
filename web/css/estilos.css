@@ -30,3 +30,26 @@ label {
     display: block;
     margin-top: 5px;
 }
+
+table {
+    margin: 0 auto;
+}
+
+table,
+th,
+td {
+    border: solid 1px black;
+    text-align: center;
+}
+
+.disponible {
+    background-color: greenyellow;
+}
+
+.noDisponible {
+    background-color: red;
+}
+
+.categoria {
+    text-align: center;
+}

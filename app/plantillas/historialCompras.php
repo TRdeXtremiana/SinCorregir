@@ -1,0 +1,1 @@
+<h1>Historial de compras de <?= $_SESSION['nombre'] ?></h1>

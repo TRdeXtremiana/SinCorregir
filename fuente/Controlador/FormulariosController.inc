@@ -55,8 +55,9 @@ class formulariosController
 
             try {
                 $cliente = new Cliente($nombre, $apellido, $domicilio, $tlfno, $eCorreo, $pass, $documento, tipoDocumento::isTipo($tipoDocumento), Nacionalidades::isNacionalidad($nacionalidad));
-
                 (new ClientesRepositorio())->registrarUsuario($nombre, $apellido, $tipoDocumento, $documento, $domicilio, $tlfno, $eCorreo, $nacionalidad, password_hash($pass, PASSWORD_DEFAULT));
+
+                header('Location: index.php?ctl=inicio');
             } catch (AppException $ex) {
                 $erroresUsuario = $ex->getError();
                 var_dump($erroresUsuario);
