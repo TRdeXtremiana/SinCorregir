@@ -37,10 +37,10 @@ class clientesController
             $timestamp2 = strtotime($devolucion);
 
             $diferencia = abs($timestamp2 - $timestamp1);
-
             $dias = floor($diferencia / (60 * 60 * 24));
 
-            var_dump($dias);
+            $texto = "$dias dias";
+
         }
 
         require __DIR__ . '/../../app/plantillas/coche.php';
