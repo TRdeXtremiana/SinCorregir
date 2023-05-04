@@ -26,9 +26,10 @@ ob_start() ?>
 
                 <tbody>
                     <?php foreach ($tablaCli as $key => $value) : ?>
-                        <?php if ($value['categoria'] === $valor['nombre']) : ?>
+                        <?php if ($value['estado'] === 'disponible' && $value['categoria'] === $valor['nombre']) : ?>
+
                             <tr>
-                                <td><?= $value['foto'] ?></td>
+                                <td><img src="web\imagenes\<?= $value['categoria'] ?>\<?= $value['foto'] ?>.jpg" alt="imagen de un <?= $value['marca'] . ' ' . $value['modelo'] ?>" width="100px"></td>
                                 <td><?= $value['marca'] ?></td>
                                 <td><?= $value['modelo'] ?></td>
                                 <td><?= $value['año'] ?></td>
@@ -38,11 +39,13 @@ ob_start() ?>
                                 <?php if ($value['estado'] === 'disponible') : ?>
                                     <td class="disponible"><?= $value['estado'] ?></td>
                                 <?php else : ?>
-                                    <td class="noDisponible"><?= $value['estado'] ?></td>
+                                    <td class="noDisponible">A partir de </td> <!-- fecha de fin de alquiler -->
                                 <?php endif ?>
 
-                                <td><input type="submit" value="Más info" name="okCoche" id="<?= $value['matricula'] ?>"></td>
+                                <!-- <td><input type="submit" value="Más info" name="okCoche" id="< ?= $value['matricula'] ?>"></td> -->
+                                <td><button type="submit" name="okCoche" value="<?= $value['matricula'] ?>">Más info</button></td>
                             </tr>
+
                         <?php endif ?>
                     <?php endforeach ?>
                 </tbody>

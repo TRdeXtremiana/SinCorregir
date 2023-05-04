@@ -115,7 +115,7 @@ class cochesRepositorio
             $con = (new ConexionBd())->getConexion();
             $snt = $con->prepare($sql);
 
-            $sth->bindValue(':matricula', $matricula);
+            $snt->bindValue(':matricula', $matricula);
             $snt->execute();
 
             $coches = $snt->fetch(\PDO::FETCH_ASSOC);
