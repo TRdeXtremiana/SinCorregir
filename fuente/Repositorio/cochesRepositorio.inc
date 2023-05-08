@@ -103,7 +103,7 @@ class cochesRepositorio
 
     public function findCoche(string $matricula): array
     {
-        $sql = 'SELECT cat.nombre, cat.descr , v.marca, v.modelo, v.año, v.motor, v.foto, c.precio, c.matricula, c.kilometros, c.estado
+        $sql = 'SELECT cat.nombre as categoria, cat.descr , v.marca, v.modelo, v.año, v.motor, v.foto, c.precio, c.matricula, c.kilometros, c.estado
                 FROM vehiculo v
                 INNER JOIN coche c ON c.idVehiculo = v.idVehiculo
                 INNER JOIN categoria cat ON cat.idCategoria = v.idCategoria
@@ -126,5 +126,9 @@ class cochesRepositorio
             unset($snt);
             unset($con);
         }
+    }
+
+    public function alquiler(string $matricula){
+
     }
 }

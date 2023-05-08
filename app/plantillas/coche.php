@@ -26,7 +26,7 @@
 
 <!-- < ?= var_dump($_SESSION['coche']) ?> -->
 
-<img src="web\imagenes\<?= $_SESSION['coche']['nombre'] ?>\<?= $_SESSION['coche']['foto'] ?>.jpg" alt="imagen de un <?= $_SESSION['coche']['marca'] . ' ' . $_SESSION['coche']['modelo'] ?>" width="500px" style="display: block; margin: 0 auto;">
+<img src="web\imagenes\<?= $_SESSION['coche']['categoria'] ?>\<?= $_SESSION['coche']['foto'] ?>.jpg" alt="imagen de un <?= $_SESSION['coche']['marca'] . ' ' . $_SESSION['coche']['modelo'] ?>" width="500px" style="display: block; margin: 0 auto;">
 
 <!-- < ?= var_dump($_SESSION['coche']) ?> -->
 

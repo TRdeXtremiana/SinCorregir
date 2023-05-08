@@ -28,6 +28,7 @@ class clientesController
 
     public function alquilar() //Coches
     {
+        var_dump($_SESSION['coche']);
 
         if (isset($_POST['okAlquiler'])) {
             $inicio = $_POST['alquilerDiaInicio'];
