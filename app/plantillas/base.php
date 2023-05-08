@@ -18,7 +18,15 @@
 
 <body>
   <header>
-    <h1>Alquiler de vehículos</h1>
+    <?php if ($_SESSION['usuario'] === 'anonimo') : ?>
+      <a href="index.php?ctl=inicio">
+        <h1>Alquiler de vehículos</h1>
+      </a>
+    <?php else : ?>
+      <a href="index.php?ctl=cliente">
+        <h1>Alquiler de vehículos</h1>
+      </a>
+    <?php endif; ?>
   </header>
   <nav>
     <hr>

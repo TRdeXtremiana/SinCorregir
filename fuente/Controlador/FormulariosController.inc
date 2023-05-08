@@ -21,9 +21,10 @@ class formulariosController
                 if (password_verify($_POST['password'], $sesion['pass'])) {
 
                     $datos =  (new ClientesRepositorio())->datosCliente($_POST['eCorreo']);
-                    $_SESSION['nombre'] = $datos['nombre'];
-                    $_SESSION['apellido'] = $datos['apellido'];
-                    $_SESSION['tlfno'] = $datos['tlfno'];
+                    $_SESSION['cliente']['nombre'] = $datos['nombre'];
+                    $_SESSION['cliente']['apellido'] = $datos['apellido'];
+                    $_SESSION['cliente']['eCorreo'] = $datos['eCorreo'];
+                    $_SESSION['cliente']['tlfno'] = $datos['tlfno'];
 
                     //var_dump($datos);
                     // var_dump($_SESSION['nombre']);

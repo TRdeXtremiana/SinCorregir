@@ -19,7 +19,6 @@ header h1 {
 
 .error {
     color: red;
-    text-align: center;
 }
 
 a {
@@ -51,5 +50,9 @@ td {
 }
 
 .categoria {
+    text-align: center;
+}
+
+.centro {
     text-align: center;
 }
