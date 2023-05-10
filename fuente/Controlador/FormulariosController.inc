@@ -61,8 +61,32 @@ class formulariosController
                 header('Location: index.php?ctl=inicio');
             } catch (AppException $ex) {
                 $erroresUsuario = $ex->getError();
-                var_dump($erroresUsuario);
-                var_dump($_POST);
+                // var_dump($erroresUsuario);
+                // var_dump($_POST);
+
+                if (!empty($erroresUsuario['nombre'])) {
+                    $errorNombre = $erroresUsuario['nombre'];
+                }
+
+                if (!empty($erroresUsuario['apellido'])) {
+                    $errorApellido = $erroresUsuario['apellido'];
+                }
+
+                if (!empty($erroresUsuario['tlfno'])) {
+                    $errorTlf = $erroresUsuario['tlfno'];
+                }
+
+                if (!empty($erroresUsuario['documento'])) {
+                    $errorDocumento = $erroresUsuario['documento'];
+                }
+
+                if (!empty($erroresUsuario['eCorreo'])) {
+                    $errorEcorreo = $erroresUsuario['eCorreo'];
+                }
+
+                if (!empty($erroresUsuario['contraseña'])) {
+                    $errorPass = $erroresUsuario['contraseña'];
+                }
             }
         }
         require __DIR__ . '/../../app/plantillas/registroCli.php';

@@ -4,6 +4,7 @@ namespace app\AlquilerCoches\controlador;
 
 use app\AlquilerCoches\repositorio\cochesRepositorio;
 use app\AlquilerCoches\modelo\UbicacionesAlquiler;
+use DateTime;
 
 class clientesController
 {
@@ -46,26 +47,29 @@ class clientesController
             $fin = strtotime($_POST['alquilerDiaDevolucion']);
 
             if ($inicio > $fin) {
-                $errores[] = 'La fecha de devolución no puede ser anterior a la de alquiler';
+                $errores['fechaDev'] = 'La fecha de devolución no puede ser anterior a la de alquiler';
             }
 
             $diferencia = abs($inicio - $fin); // valor absoluto
             $dias = floor($diferencia / (60 * 60 * 24)); // Paso de segundos a días
 
             if ($dias < 1) {
-                $errores[] = 'El alquiler mínimo es de 1 día';
+                $errores['alquilerMin'] = 'El alquiler mínimo es de 1 día';
             }
 
             if ($_SESSION['coche']['estado'] != 'disponible') {
-                $errores[] = 'El coche no está disponible para alquilar';
+                $errores['noDisponible'] = 'El coche no está disponible para alquilar';
             }
 
             if (empty($_POST['ubicaRecogida']) || empty($_POST['ubicaDevolucion'])) {
-                $errores[] = 'Las ubicaciones de recogida y devolución son obligatorias';
+                $errores['ubicaciones'] = 'Las ubicaciones de recogida y devolución son obligatorias';
             }
 
             if (empty($errores)) {
-                (new cochesRepositorio)->alquiler($_SESSION['coche']['matricula'],  $_SESSION['cliente']['eCorreo'], $_POST['alquilerDiaInicio'], $_POST['alquilerDiaDevolucion']);
+                $fechaReserva = (new DateTime());
+                $fecha_string = $fechaReserva->format('Y-m-d H:i:s');
+
+                $alquilado = (new cochesRepositorio)->alquiler($_SESSION['coche']['matricula'],  $_SESSION['cliente']['eCorreo'], $_POST['alquilerDiaInicio'], $_POST['alquilerDiaDevolucion'], $fecha_string);
 
                 // Guardar los valores en sesión
                 $_SESSION['ubiRecogida'] = $_POST['ubicaRecogida'];
@@ -77,8 +81,9 @@ class clientesController
                 $_SESSION['horaDevolucion'] = $_POST['horaDiaDevolucion'];
 
                 $confirmacion = 'Has alquilado nuestro ' . $_SESSION['coche']['marca'] . ' ' . $_SESSION['coche']['modelo'] . " durante $dias días.";
+                // var_dump($alquilado);
             } else {
-                $confirmacion = 'No se pudo alquilar el coche por las siguientes razones:';
+                $confirmacion = 'No se pudo alquilar el coche, revise los errores e intentelo de nuevo';
                 // unset($errores);
             }
         }
