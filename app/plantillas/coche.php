@@ -21,6 +21,10 @@
                 <option value="Haro">Haro</option>
                 <option value="Nájera">Nájera</option>
             </select>
+
+            <?php if (!empty($errores['ubicaciones'])) : ?>
+                <span class="error"> <?= $errores['ubicaciones'] ?></li> </span>
+            <?php endif ?>
         </label>
 
         <!-- <label>Ubicación:
@@ -40,6 +44,14 @@
         <label for="alquilerDiaDevolucion"> Día:
             <input type="date" name="alquilerDiaDevolucion" id="alquilerDiaDevolucion" min="<?= (new DateTime('now'))->format('Y-m-d') ?>">
             <input type="time" id="horaDiaDevolucion" name="horaDiaDevolucion" min="00:00" max="23:59" required>
+
+            <?php if (!empty($errores['fechaDev'])) : ?>
+                <span class="error"> <?= $errores['fechaDev'] ?></li> </span>
+            <?php endif ?>
+
+            <?php if (!empty($errores['alquilerMin'])) : ?>
+                <span class="error"> <?= $errores['alquilerMIn'] ?></li> </span>
+            <?php endif ?>
         </label>
 
         <label for="ubicaDevolucion">
@@ -52,24 +64,24 @@
                 <option value="Nájera">Nájera</option>
             </select>
 
+            <?php if (!empty($errores['ubicaciones'])) : ?>
+                <span class="error"> <?= $errores['ubicaciones'] ?></li> </span>
+            <?php endif ?>
+        </label>
     </fieldset>
 
     <input type="submit" name="okAlquiler" value="Alquilar">
     <input type="submit" name="okDevolver" value="Devolver">
     <br>
-
-    <?php if (isset($confirmacion)) : ?>
-        <span id="diasAlquiler"><?= $confirmacion ?></span>
-    <?php endif ?>
-
-    <?php if (!empty($errores)) : ?>
-        <ul class="error">
-            <?php foreach ($errores as $error) : ?>
-                <li> <?= $error ?></li>
-            <?php endforeach ?>
-        </ul>
-    <?php endif ?>
 </form>
+
+<?php if (!empty($errores['noDisponible'])) : ?>
+    <span class="error"> <?= $errores['noDisponible'] ?></li> </span>
+<?php endif ?>
+
+<?php if (isset($confirmacion)) : ?>
+    <span id="diasAlquiler"><?= $confirmacion ?></span>
+<?php endif ?>
 
 <!-- < ?= var_dump($_SESSION['coche']) ?> -->
 

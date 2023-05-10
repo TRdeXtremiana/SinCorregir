@@ -22,14 +22,12 @@ ob_start() ?>
                         <th>Motor</th>
                         <th>Matricula</th>
                         <th>Estado</th>
-                        <th></th>
                     </tr>
                 </thead>
 
                 <tbody>
                     <?php foreach ($tablaCli as $key => $value) : ?>
-                        <!-- < ?php if ($value['estado'] === 'disponible' && $value['categoria'] === $valor['nombre']) : ?> -->
-                            <?php if($value['categoria'] === $valor['nombre']) : ?>
+                        <?php if ($value['estado'] === 'disponible' && $value['categoria'] === $valor['nombre']) : ?>
 
                             <tr>
                                 <td><img src="web\imagenes\<?= $value['categoria'] ?>\<?= $value['foto'] ?>.jpg" alt="imagen de un <?= $value['marca'] . ' ' . $value['modelo'] ?>" width="100px"></td>
@@ -45,9 +43,8 @@ ob_start() ?>
                                     <td class="noDisponible">A partir de ? a las ?</td> <!-- fecha de fin de alquiler -->
                                 <?php endif ?>
 
-                                <!-- <td><input type="submit" value="Más info" name="okCoche" id="< ?= $value['matricula'] ?>"></td> -->
                                 <td><button type="submit" name="okCoche" value="<?= $value['matricula'] ?>">Más info</button></td>
-                                <td><button type="submit" name="okDevolver" value="<?= $value['matricula'] ?>">Devolver</button></td>
+                                <!-- <td><button type="submit" name="okDevolver" value="< ?= $value['matricula'] ?>">Devolver</button></td> -->
                             </tr>
 
                         <?php endif ?>
