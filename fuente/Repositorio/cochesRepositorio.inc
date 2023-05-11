@@ -76,12 +76,54 @@ class cochesRepositorio
         }
     }
 
+    public function cochesFiltrados(string $fInicio, string $fFin): array
+    {
+        $sql = "select * 
+        from coche
+        where matricula not in
+            (select matricula 
+            from reserva
+            where  fInicio >= getdate()
+                and (
+            (finicio <= '2023-05-14' and finicio >= '2023-05-10')
+              or (fFin >= '2023-05-10' and fFin <= '2023-05-14')))
+        or matricula not in 
+            (select matricula
+            from alquiler
+            where fInicio >= GETDATE()
+            and( 
+                //fFin debe acabar en este plazo de tiempo
+                //idReserva no debe ser nulo
+                ))";
+
+        require_once __DIR__ . '/../../core/conexionBd.inc';
+
+        try {
+            $con = (new ConexionBd())->getConexion();
+            $snt = $con->prepare($sql);
+
+            $snt->bindValue(':fInicio', $fInicio);
+            $snt->bindValue(':fFin', $fFin);
+
+            $snt->execute();
+
+            $coches = $snt->fetchAll(\PDO::FETCH_ASSOC);
+            return $coches;
+        } catch (\PDOException $ex) {
+            throw $ex;
+        } finally {
+            unset($snt);
+            unset($con);
+        }
+    }
+
     public function tablaClientes(): array
     {
-        $sql = 'SELECT cat.nombre as categoria, v.marca, v.modelo, v.año, v.motor, v.foto, c.precio, c.matricula, c.kilometros, c.estado
-                FROM vehiculo v
-                INNER JOIN coche c ON c.idVehiculo = v.idVehiculo
-                INNER JOIN categoria cat ON cat.idCategoria = v.idCategoria';
+        $sql = "SELECT cat.nombre as categoria, v.marca, v.modelo, v.año, v.motor, v.foto, c.precio, c.matricula, c.kilometros, c.estado
+        FROM vehiculo v
+        INNER JOIN coche c ON c.idVehiculo = v.idVehiculo
+        INNER JOIN categoria cat ON cat.idCategoria = v.idCategoria
+        WHERE c.estado = 'disponible'";
 
         require_once __DIR__ . '/../../core/conexionBd.inc';
 

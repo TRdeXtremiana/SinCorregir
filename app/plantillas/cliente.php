@@ -7,6 +7,25 @@ ob_start() ?>
 <!-- < ?= var_dump($_SESSION['cliente']) ?> -->
 
 <form action="" method="post">
+
+    <fieldset>
+        <legend>¿Quiéres alquilar un vehículo?</legend>
+
+        <label for="fechaAlquiler">
+            Recogida del vehiculo: <input type="date" name="fechaAlquiler" id="fechaAlquiler" min="<?= (new DateTime('now'))->format('Y-m-d') ?>">
+        </label>
+
+        <label for="fechaDevolucion">
+            Devolución del vehiculo: <input type="date" name="fechaDevolucion" id="fechaDevolucion" min="<?= (new DateTime('now'))->format('Y-m-d') ?>">
+        </label>
+
+        <?php if (!empty($errores['fecha'])) : ?>
+            <span class="error"> <?= $errores['fecha'] ?></li> </span>
+        <?php endif ?>
+        <br>
+        <input type="submit" name="okFechas" value="Mostrar">
+    </fieldset>
+
     <?php foreach ($categorias as $key => $valor) : ?>
         <div class="categoria">
             <h2><?= $valor['nombre'] ?></h2>
@@ -27,7 +46,7 @@ ob_start() ?>
 
                 <tbody>
                     <?php foreach ($tablaCli as $key => $value) : ?>
-                        <?php if ($value['estado'] === 'disponible' && $value['categoria'] === $valor['nombre']) : ?>
+                        <?php if ($value['categoria'] === $valor['nombre']) : ?>
 
                             <tr>
                                 <td><img src="web\imagenes\<?= $value['categoria'] ?>\<?= $value['foto'] ?>.jpg" alt="imagen de un <?= $value['marca'] . ' ' . $value['modelo'] ?>" width="100px"></td>
@@ -36,14 +55,9 @@ ob_start() ?>
                                 <td><?= $value['año'] ?></td>
                                 <td><?= $value['motor'] ?></td>
                                 <td><?= $value['matricula'] ?></td>
+                                <td class="disponible"><?= $value['estado'] ?></td>
 
-                                <?php if ($value['estado'] === 'disponible') : ?>
-                                    <td class="disponible"><?= $value['estado'] ?></td>
-                                <?php else : ?>
-                                    <td class="noDisponible">A partir de ? a las ?</td> <!-- fecha de fin de alquiler -->
-                                <?php endif ?>
-
-                                <td><button type="submit" name="okCoche" value="<?= $value['matricula'] ?>">Más info</button></td>
+                                <!-- <td><button type="submit" name="okCoche" value="< ?= $value['matricula'] ?>">Más info</button></td> -->
                                 <!-- <td><button type="submit" name="okDevolver" value="< ?= $value['matricula'] ?>">Devolver</button></td> -->
                             </tr>
 
@@ -54,6 +68,10 @@ ob_start() ?>
         </div>
     <?php endforeach ?>
 </form>
+
+<script>
+
+</script>
 
 <?php $contenido = ob_get_clean() ?>
 <?php include 'base.php' ?>

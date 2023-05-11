@@ -9,7 +9,7 @@
 
         <label for="alquilerDiaInicio"> Día:
             <input type="date" name="alquilerDiaInicio" id="alquilerDiaInicio" min="<?= (new DateTime('now'))->format('Y-m-d') ?>">
-            <input type="time" id="horaDiaInicio" name="horaDiaInicio" min="00:00" max="23:59" required>
+            <input type="time" id="horaDiaInicio" name="horaDiaInicio" min="00:00" max="23:59">
         </label>
 
         <label for="ubicaRecogida">
@@ -43,7 +43,7 @@
 
         <label for="alquilerDiaDevolucion"> Día:
             <input type="date" name="alquilerDiaDevolucion" id="alquilerDiaDevolucion" min="<?= (new DateTime('now'))->format('Y-m-d') ?>">
-            <input type="time" id="horaDiaDevolucion" name="horaDiaDevolucion" min="00:00" max="23:59" required>
+            <input type="time" id="horaDiaDevolucion" name="horaDiaDevolucion" min="00:00" max="23:59">
 
             <?php if (!empty($errores['fechaDev'])) : ?>
                 <span class="error"> <?= $errores['fechaDev'] ?></li> </span>

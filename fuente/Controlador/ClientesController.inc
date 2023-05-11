@@ -16,6 +16,23 @@ class clientesController
         $tablaCli = (new cochesRepositorio())->tablaClientes();
         // var_dump($tablaCli);
 
+        if (isset($_POST['okFechas'])) {
+            $errores = array();
+
+            if (!isset($_POST['fechaAlquiler'], $_POST['fechaDevolucion']) || empty($_POST['fechaAlquiler']) || empty($_POST['fechaDevolucion'])) {
+                $errores['fecha'] = 'Ambas fechas son obligatorias';
+            }
+
+            $inicio = strtotime($_POST['fechaAlquiler']);
+            $fin = strtotime($_POST['fechaDevolucion']);
+
+            if ($inicio > $fin) {
+                $errores['fecha'] = 'La fecha de devolución no puede ser anterior a la de alquiler';
+            }
+
+            // $filtro = (new cochesRepositorio())->cochesFiltrados($_POST['fechaAlquiler'], $_POST['fechaDevolucion']);
+        }
+
         if (isset($_POST['okCoche'])) {
 
             $_SESSION['coche'] = (new cochesRepositorio())->findCoche($_POST['okCoche']);
@@ -40,7 +57,7 @@ class clientesController
             $errores = array();
 
             if (!isset($_POST['alquilerDiaInicio'], $_POST['alquilerDiaDevolucion']) || empty($_POST['alquilerDiaInicio']) || empty($_POST['alquilerDiaDevolucion'])) {
-                $errores[] = 'Ambas fechas son obligatorias';
+                $errores['alquilerMin'] = 'Ambas fechas son obligatorias';
             }
 
             $inicio = strtotime($_POST['alquilerDiaInicio']);
@@ -74,11 +91,11 @@ class clientesController
                 // Guardar los valores en sesión
                 $_SESSION['ubiRecogida'] = $_POST['ubicaRecogida'];
                 $_SESSION['fechaRecogida'] = $_POST['alquilerDiaInicio'];
-                $_SESSION['horaRecogida'] = $_POST['horaDiaInicio'];
+                // $_SESSION['horaRecogida'] = $_POST['horaDiaInicio'];
 
                 $_SESSION['ubiDevolucion'] = $_POST['ubicaDevolucion'];
                 $_SESSION['fechaDevolucion'] = $_POST['alquilerDiaDevolucion'];
-                $_SESSION['horaDevolucion'] = $_POST['horaDiaDevolucion'];
+                // $_SESSION['horaDevolucion'] = $_POST['horaDiaDevolucion'];
 
                 $confirmacion = 'Has alquilado nuestro ' . $_SESSION['coche']['marca'] . ' ' . $_SESSION['coche']['modelo'] . " durante $dias días.";
                 // var_dump($alquilado);
