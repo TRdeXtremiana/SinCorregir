@@ -78,23 +78,25 @@ class cochesRepositorio
 
     public function cochesFiltrados(string $fInicio, string $fFin): array
     {
-        $sql = "select * 
-        from coche
-        where matricula not in
-            (select matricula 
-            from reserva
-            where  fInicio >= getdate()
-                and (
-            (finicio <= '2023-05-14' and finicio >= '2023-05-10')
-              or (fFin >= '2023-05-10' and fFin <= '2023-05-14')))
-        or matricula not in 
-            (select matricula
-            from alquiler
-            where fInicio >= GETDATE()
-            and( 
-                //fFin debe acabar en este plazo de tiempo
-                //idReserva no debe ser nulo
-                ))";
+        $sql = "SELECT * 
+        FROM coche
+        WHERE matricula NOT IN (
+            SELECT matricula 
+            FROM reserva
+            WHERE fInicio >= GETDATE()
+                AND (
+                    (finicio <= :fFin AND finicio >= :fInicio)
+                    OR (fFin >= :fInicio AND fFin <= :fFin)
+                )
+        )
+        OR matricula NOT IN (
+            SELECT matricula
+            FROM alquiler
+            WHERE fInicio >= GETDATE()
+                AND fFin <= :fFin -- fFin debe acabar antes de esta fecha
+                AND idReserva IS NOT NULL -- idReserva no puede ser null
+        )";
+
 
         require_once __DIR__ . '/../../core/conexionBd.inc';
 
