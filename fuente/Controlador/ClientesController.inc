@@ -30,13 +30,12 @@ class clientesController
                 $errores['fecha'] = 'La fecha de devolución no puede ser anterior a la de alquiler';
             }
 
+            // var_dump($errores);
+
             if (empty($errores)) {
-            $filtro = (new cochesRepositorio())->cochesFiltrados($_POST['fechaAlquiler'], $_POST['fechaDevolucion']);
-
-
+                $filtro = (new cochesRepositorio())->cochesDisponibles($inicio, $fin);
+                var_dump($filtro);
             }
-
-            
         }
 
         if (isset($_POST['okCoche'])) {

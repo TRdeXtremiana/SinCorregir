@@ -26,47 +26,44 @@ ob_start() ?>
         <input type="submit" name="okFechas" value="Mostrar">
     </fieldset>
 
-    <?php foreach ($categorias as $key => $valor) : ?>
-        <div class="categoria">
-            <h2><?= $valor['nombre'] ?></h2>
-            <p><?= $valor['descr'] ?></p>
+    <?php if (isset($_POST['okFechas']) && empty($errores)) : ?>
+        <?php foreach ($categorias as $key => $valor) : ?>
+            <div class="categoria">
+                <h2><?= $valor['nombre'] ?></h2>
+                <p><?= $valor['descr'] ?></p>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Foto</th>
-                        <th>Marca</th>
-                        <th>Modelo</th>
-                        <th>Año</th>
-                        <th>Motor</th>
-                        <th>Matricula</th>
-                        <th>Estado</th>
-                    </tr>
-                </thead>
 
-                <tbody>
-                    <?php foreach ($tablaCli as $key => $value) : ?>
-                        <?php if ($value['categoria'] === $valor['nombre']) : ?>
-
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Foto</th>
+                            <th>Marca</th>
+                            <th>Modelo</th>
+                            <th>Año</th>
+                            <th>Motor</th>
+                            <th>Matricula</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($filtro as $coche) : ?>
                             <tr>
-                                <td><img src="web\imagenes\<?= $value['categoria'] ?>\<?= $value['foto'] ?>.jpg" alt="imagen de un <?= $value['marca'] . ' ' . $value['modelo'] ?>" width="100px"></td>
-                                <td><?= $value['marca'] ?></td>
-                                <td><?= $value['modelo'] ?></td>
-                                <td><?= $value['año'] ?></td>
-                                <td><?= $value['motor'] ?></td>
-                                <td><?= $value['matricula'] ?></td>
-                                <td class="disponible"><?= $value['estado'] ?></td>
-
-                                <!-- <td><button type="submit" name="okCoche" value="< ?= $value['matricula'] ?>">Más info</button></td> -->
-                                <!-- <td><button type="submit" name="okDevolver" value="< ?= $value['matricula'] ?>">Devolver</button></td> -->
+                                <td><img src="web/imagenes/<?= $coche['categoria'] ?>/<?= $coche['foto'] ?>.jpg" alt="imagen de un <?= $coche['marca'] . ' ' . $coche['modelo'] ?>" width="100px"></td>
+                                <td><?= $coche['marca'] ?></td>
+                                <td><?= $coche['modelo'] ?></td>
+                                <td><?= $coche['año'] ?></td>
+                                <td><?= $coche['motor'] ?></td>
+                                <td><?= $coche['matricula'] ?></td>
+                                <td class="disponible"><?= $coche['estado'] ?></td>
                             </tr>
+                        <?php endforeach ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php endforeach ?>
+    <?php endif ?>
 
-                        <?php endif ?>
-                    <?php endforeach ?>
-                </tbody>
-            </table>
-        </div>
-    <?php endforeach ?>
+
 </form>
 
 <script>

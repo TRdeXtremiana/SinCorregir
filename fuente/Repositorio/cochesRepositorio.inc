@@ -76,39 +76,38 @@ class cochesRepositorio
         }
     }
 
-    public function cochesFiltrados(string $fInicio, string $fFin): array
+    public function cochesDisponibles(string $fInicio, string $fFin): array
     {
-        $sql = "SELECT * 
-        FROM coche
-        WHERE matricula NOT IN (
-            SELECT matricula 
-            FROM reserva
-            WHERE fInicio >= GETDATE()
-                AND (
-                    (finicio <= :fFin AND finicio >= :fInicio)
-                    OR (fFin >= :fInicio AND fFin <= :fFin)
+        $sql = "SELECT cat.nombre AS categoria, v.marca, v.modelo, v.año, v.motor, v.foto, c.precio, c.matricula, c.estado
+                FROM vehiculo v
+                INNER JOIN coche c ON c.idVehiculo = v.idVehiculo
+                INNER JOIN categoria cat ON cat.idCategoria = v.idCategoria
+                WHERE c.estado = 'disponible'
+                AND c.matricula NOT IN (
+                    SELECT matricula 
+                    FROM reserva
+                    WHERE fInicio <= :fFin
+                        AND fFin >= :fInicio
                 )
-        )
-        OR matricula NOT IN (
-            SELECT matricula
-            FROM alquiler
-            WHERE fInicio >= GETDATE()
-                AND fFin <= :fFin -- fFin debe acabar antes de esta fecha
-                AND idReserva IS NOT NULL -- idReserva no puede ser null
-        )";
-
-
+                AND c.matricula NOT IN (
+                    SELECT matricula
+                    FROM alquiler
+                    WHERE fInicio <= :fFin
+                        AND fFin >= :fInicio
+                        AND idReserva IS NOT NULL
+                )";
+    
         require_once __DIR__ . '/../../core/conexionBd.inc';
-
+    
         try {
             $con = (new ConexionBd())->getConexion();
             $snt = $con->prepare($sql);
-
+    
             $snt->bindValue(':fInicio', $fInicio);
             $snt->bindValue(':fFin', $fFin);
-
+    
             $snt->execute();
-
+    
             $coches = $snt->fetchAll(\PDO::FETCH_ASSOC);
             return $coches;
         } catch (\PDOException $ex) {
@@ -118,6 +117,8 @@ class cochesRepositorio
             unset($con);
         }
     }
+    
+    
 
     public function tablaClientes(): array
     {
