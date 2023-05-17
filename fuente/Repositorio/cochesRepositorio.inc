@@ -77,7 +77,7 @@ class cochesRepositorio
     }
 
     public function cochesDisponibles(string $fInicio, string $fFin): array
-    {
+    {   //die(var_dump($fInicio, $fFin));
         $sql = "SELECT cat.nombre AS categoria, v.marca, v.modelo, v.año, v.motor, v.foto, c.precio, c.matricula, c.estado
                 FROM vehiculo v
                 INNER JOIN coche c ON c.idVehiculo = v.idVehiculo
@@ -85,29 +85,32 @@ class cochesRepositorio
                 WHERE c.estado = 'disponible'
                 AND c.matricula NOT IN (
                     SELECT matricula 
-                    FROM reserva
-                    WHERE fInicio <= :fFin
-                        AND fFin >= :fInicio
+                    FROM reserva r1
+                    WHERE r1.fInicio <= :fFinal
+                        AND r1.fFin >= :fIni
                 )
                 AND c.matricula NOT IN (
                     SELECT matricula
-                    FROM alquiler
-                    WHERE fInicio <= :fFin
-                        AND fFin >= :fInicio
-                        AND idReserva IS NOT NULL
+                    FROM alquiler a
+                    WHERE a.fInicio <= :fFin
+                        AND a.fFin >= :fInicio
+                        AND a.idReserva IS NOT NULL
                 )";
-    
+
         require_once __DIR__ . '/../../core/conexionBd.inc';
-    
+
         try {
             $con = (new ConexionBd())->getConexion();
             $snt = $con->prepare($sql);
-    
+
+            $snt->bindValue(':fIni', $fInicio);
+            $snt->bindValue(':fFinal', $fFin);
+
             $snt->bindValue(':fInicio', $fInicio);
             $snt->bindValue(':fFin', $fFin);
-    
+
             $snt->execute();
-    
+
             $coches = $snt->fetchAll(\PDO::FETCH_ASSOC);
             return $coches;
         } catch (\PDOException $ex) {
@@ -117,8 +120,6 @@ class cochesRepositorio
             unset($con);
         }
     }
-    
-    
 
     public function tablaClientes(): array
     {

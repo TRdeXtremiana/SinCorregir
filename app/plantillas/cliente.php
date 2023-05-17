@@ -47,15 +47,21 @@ ob_start() ?>
                     </thead>
                     <tbody>
                         <?php foreach ($filtro as $coche) : ?>
-                            <tr>
-                                <td><img src="web/imagenes/<?= $coche['categoria'] ?>/<?= $coche['foto'] ?>.jpg" alt="imagen de un <?= $coche['marca'] . ' ' . $coche['modelo'] ?>" width="100px"></td>
-                                <td><?= $coche['marca'] ?></td>
-                                <td><?= $coche['modelo'] ?></td>
-                                <td><?= $coche['año'] ?></td>
-                                <td><?= $coche['motor'] ?></td>
-                                <td><?= $coche['matricula'] ?></td>
-                                <td class="disponible"><?= $coche['estado'] ?></td>
-                            </tr>
+                            <!-- < ?= var_dump($coche) ?> -->
+                            <?php if ($coche['categoria'] === $valor['nombre']) : ?>
+                                <tr>
+                                    <td><img src="web/imagenes/<?= $coche['categoria'] ?>/<?= $coche['foto'] ?>.jpg" alt="imagen de un <?= $coche['marca'] . ' ' . $coche['modelo'] ?>" width="100px"></td>
+                                    <td><?= $coche['marca'] ?></td>
+                                    <td><?= $coche['modelo'] ?></td>
+                                    <td><?= $coche['año'] ?></td>
+                                    <td><?= $coche['motor'] ?></td>
+                                    <td><?= $coche['matricula'] ?></td>
+                                    <td class="disponible"><?= $coche['estado'] ?></td>
+
+                                    <td> <a href="index.php?ctl=alguno&matricula=<?= $coche['matricula'] ?>"><input type="submit" name="<?= $coche['matricula'] ?>" value="Más info"></a></td>
+                                    <td> <button name="ok" value="<?= $coche['matricula'] ?>" formmethod="post">Más info</button></td>
+                                </tr>
+                            <?php endif ?>
                         <?php endforeach ?>
                     </tbody>
                 </table>
@@ -63,12 +69,7 @@ ob_start() ?>
         <?php endforeach ?>
     <?php endif ?>
 
-
 </form>
-
-<script>
-
-</script>
 
 <?php $contenido = ob_get_clean() ?>
 <?php include 'base.php' ?>

@@ -13,7 +13,7 @@ class clientesController
         $categorias =  (new cochesRepositorio())->allCategorias();
         // $vehiculos =  (new cochesRepositorio())->allVehiculos();
         // $coches =  (new cochesRepositorio())->allCoches();
-        $tablaCli = (new cochesRepositorio())->tablaClientes();
+        // $tablaCli = (new cochesRepositorio())->tablaClientes();
         // var_dump($tablaCli);
 
         if (isset($_POST['okFechas'])) {
@@ -23,25 +23,24 @@ class clientesController
                 $errores['fecha'] = 'Ambas fechas son obligatorias';
             }
 
-            $inicio = strtotime($_POST['fechaAlquiler']);
-            $fin = strtotime($_POST['fechaDevolucion']);
-
-            if ($inicio > $fin) {
+            if ($_POST['fechaAlquiler'] > $_POST['fechaDevolucion']) {
                 $errores['fecha'] = 'La fecha de devolución no puede ser anterior a la de alquiler';
             }
 
             // var_dump($errores);
 
             if (empty($errores)) {
-                $filtro = (new cochesRepositorio())->cochesDisponibles($inicio, $fin);
-                var_dump($filtro);
+                var_dump($_POST['fechaAlquiler']);
+                var_dump($_POST['fechaDevolucion']);
+                $filtro = (new cochesRepositorio())->cochesDisponibles($_POST['fechaAlquiler'], $_POST['fechaDevolucion']);
             }
         }
 
-        if (isset($_POST['okCoche'])) {
+        if (isset($_POST['ok'])) {
+            var_dump($_POST);
 
-            $_SESSION['coche'] = (new cochesRepositorio())->findCoche($_POST['okCoche']);
-            // var_dump($_SESSION['coche']);
+            $_SESSION['coche'] = (new cochesRepositorio())->findCoche($_POST['ok']);
+            var_dump($_SESSION['coche']);
 
             header('Location: index.php?ctl=coche');
         }
@@ -49,6 +48,7 @@ class clientesController
         if (isset($_POST['okDevolver'])) {
             (new cochesRepositorio())->devolucion($_SESSION['coche']['matricula']);
         }
+
 
         require __DIR__ . '/../../app/plantillas/cliente.php';
     }
