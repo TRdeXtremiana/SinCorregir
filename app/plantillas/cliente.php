@@ -42,7 +42,6 @@ ob_start() ?>
                             <th>Año</th>
                             <th>Motor</th>
                             <th>Matricula</th>
-                            <th>Estado</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -56,9 +55,9 @@ ob_start() ?>
                                     <td><?= $coche['año'] ?></td>
                                     <td><?= $coche['motor'] ?></td>
                                     <td><?= $coche['matricula'] ?></td>
-                                    <td class="disponible"><?= $coche['estado'] ?></td>
+                                    <!-- <td class="disponible">< ?= $coche['estado'] ?></td> -->
 
-                                    <td> <a href="index.php?ctl=alguno&matricula=<?= $coche['matricula'] ?>"><input type="submit" name="<?= $coche['matricula'] ?>" value="Más info"></a></td>
+                                    <!-- <td> <a href="index.php?ctl=alguno&matricula=< ?= $coche['matricula'] ?>"><input type="submit" name="< ?= $coche['matricula'] ?>" value="Más info"></a></td> -->
                                     <td> <button name="ok" value="<?= $coche['matricula'] ?>" formmethod="post">Más info</button></td>
                                 </tr>
                             <?php endif ?>

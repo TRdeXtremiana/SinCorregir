@@ -1,16 +1,17 @@
 use alquilerVehiculos;
 go 
 
--- DROP TABLE categoria;
--- DROP TABLE vehiculo;
--- DROP TABLE coche;
--- DROP TABLE sesion;
--- DROP TABLE cliente;
--- DROP TABLE empleado;
--- DROP TABLE reserva;
--- DROP TABLE alquiler;
--- DROP TABLE caja;
--- go
+     DROP TABLE alquiler;
+ DROP TABLE reserva;
+ DROP TABLE caja;
+ DROP TABLE sesion;
+ DROP TABLE empleado;
+ DROP TABLE cliente;
+ DROP TABLE coche;
+ DROP TABLE vehiculo;
+ DROP TABLE categoria;
+
+ go
 
 create table categoria
 (	idCategoria INT IDENTITY not null,
@@ -36,6 +37,7 @@ CREATE TABLE vehiculo
 	motor VARCHAR(200) NOT NULL, --mod
 	cambio VARCHAR(100) NOT NULL, --mod
 	idCategoria INT NOT NULL,
+	foto VARCHAR(255) NOT NULL,
 
 	CONSTRAINT PkVehiculo
 		PRIMARY KEY (idVehiculo),
@@ -44,6 +46,9 @@ CREATE TABLE vehiculo
 		FOREIGN KEY (idCategoria)
 		REFERENCES categoria (idCategoria),
 );
+
+insert into vehiculo(marca, modelo, año, motor, cambio, idCategoria, foto)
+values ('mercedes', 'clase C', '2021', 'diesel', 'manual', '4', 'mercedes1');
 
 CREATE TABLE coche
 (	matricula CHAR(7) NOT NULL,
@@ -140,8 +145,8 @@ CREATE TABLE alquiler
 	idCliente INT NOT NULL,
 	matricula CHAR(7) NOT NULL,
 	idReserva INT NOT NULL,
-	fInicio DATE NOT NULL,
-	fFin DATE NOT NULL,
+	fInicio DATETIME NOT NULL,
+	fFin DATETIME NOT NULL,
 	importe MONEY NOT NULL,
 	atendidoPor INT NOT NULL,
 	--seguro VARCHAR() NOT NULL,

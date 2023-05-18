@@ -174,10 +174,10 @@ class cochesRepositorio
         }
     }
 
-    public function alquiler(string $matricula, string $eCorreo, string $fInicio, string $fFin, string $fReserva): bool
+    public function reserva(string $matricula, string $eCorreo, string $fInicio, string $fFin, string $fReserva): bool
     {
         $sql = "UPDATE coche
-                    SET estado = 'alquilado'
+                    SET estado = 'reservado'
                     WHERE matricula = :matricula";
 
         $sql2 = "SELECT idcliente

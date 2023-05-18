@@ -36,6 +36,8 @@
 
             $diferencia = abs($inicio - $fin); // valor absoluto
             $dias = floor($diferencia / (60 * 60 * 24)); // Paso de segundos a días
+
+            //Calcular horas
             ?>
 
             <td><?= $dias ?> dias</td>

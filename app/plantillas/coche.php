@@ -7,8 +7,8 @@
     <fieldset>
         <legend>Recogida</legend>
 
-        <label for="alquilerDiaInicio"> Día:
-            <input type="date" name="alquilerDiaInicio" id="alquilerDiaInicio" min="<?= (new DateTime('now'))->format('Y-m-d') ?>">
+        <p>Día: <?= $_SESSION['fInicio'] ?></p>
+        <label for="alquilerDiaInicio"> Hora:
             <input type="time" id="horaDiaInicio" name="horaDiaInicio" min="00:00" max="23:59">
         </label>
 
@@ -40,9 +40,8 @@
 
     <fieldset>
         <legend>Devolución</legend>
-
-        <label for="alquilerDiaDevolucion"> Día:
-            <input type="date" name="alquilerDiaDevolucion" id="alquilerDiaDevolucion" min="<?= (new DateTime('now'))->format('Y-m-d') ?>">
+        <p>Día: <?= $_SESSION['fFin'] ?></p>
+        <label for="alquilerDiaDevolucion"> Hora:
             <input type="time" id="horaDiaDevolucion" name="horaDiaDevolucion" min="00:00" max="23:59">
 
             <?php if (!empty($errores['fechaDev'])) : ?>

@@ -30,13 +30,16 @@ class clientesController
             // var_dump($errores);
 
             if (empty($errores)) {
-                var_dump($_POST['fechaAlquiler']);
-                var_dump($_POST['fechaDevolucion']);
+                // var_dump($_POST['fechaAlquiler']);
+                // var_dump($_POST['fechaDevolucion']);
+
+                $_SESSION['fInicio'] = $_POST['fechaAlquiler'];
+                $_SESSION['fFin'] = $_POST['fechaDevolucion'];
                 $filtro = (new cochesRepositorio())->cochesDisponibles($_POST['fechaAlquiler'], $_POST['fechaDevolucion']);
             }
         }
 
-        if (isset($_POST['ok'])) {
+        if (isset($_POST['ok'])) { //Separar de este controlador
             var_dump($_POST);
 
             $_SESSION['coche'] = (new cochesRepositorio())->findCoche($_POST['ok']);
@@ -54,23 +57,15 @@ class clientesController
     }
 
 
-    public function alquilar() //Coches
+    public function reservar() //Coches
     {
         // var_dump($_SESSION['coche']);
 
         if (isset($_POST['okAlquiler'])) {
             $errores = array();
 
-            if (!isset($_POST['alquilerDiaInicio'], $_POST['alquilerDiaDevolucion']) || empty($_POST['alquilerDiaInicio']) || empty($_POST['alquilerDiaDevolucion'])) {
-                $errores['alquilerMin'] = 'Ambas fechas son obligatorias';
-            }
-
-            $inicio = strtotime($_POST['alquilerDiaInicio']);
-            $fin = strtotime($_POST['alquilerDiaDevolucion']);
-
-            if ($inicio > $fin) {
-                $errores['fechaDev'] = 'La fecha de devolución no puede ser anterior a la de alquiler';
-            }
+            $inicio = strtotime($_SESSION['fInicio']);
+            $fin = strtotime($_SESSION['fFin']);
 
             $diferencia = abs($inicio - $fin); // valor absoluto
             $dias = floor($diferencia / (60 * 60 * 24)); // Paso de segundos a días
@@ -91,19 +86,20 @@ class clientesController
                 $fechaReserva = (new DateTime());
                 $fecha_string = $fechaReserva->format('Y-m-d H:i:s');
 
-                $alquilado = (new cochesRepositorio)->alquiler($_SESSION['coche']['matricula'],  $_SESSION['cliente']['eCorreo'], $_POST['alquilerDiaInicio'], $_POST['alquilerDiaDevolucion'], $fecha_string);
-
                 // Guardar los valores en sesión
                 $_SESSION['ubiRecogida'] = $_POST['ubicaRecogida'];
-                $_SESSION['fechaRecogida'] = $_POST['alquilerDiaInicio'];
-                // $_SESSION['horaRecogida'] = $_POST['horaDiaInicio'];
+                $_SESSION['horaRecogida'] = $_POST['horaDiaInicio'];
 
                 $_SESSION['ubiDevolucion'] = $_POST['ubicaDevolucion'];
-                $_SESSION['fechaDevolucion'] = $_POST['alquilerDiaDevolucion'];
-                // $_SESSION['horaDevolucion'] = $_POST['horaDiaDevolucion'];
+                $_SESSION['horaDevolucion'] = $_POST['horaDiaDevolucion'];
+
+                $_SESSION['fInicio'] = $_SESSION['fInicio'] . ' ' . $_POST['horaDiaInicio'];
+                $_SESSION['fFin'] = $_SESSION['fFin'] . ' ' . $_POST['horaDiaDevolucion'];
+
+                $alquilado = (new cochesRepositorio)->reserva($_SESSION['coche']['matricula'], $_SESSION['cliente']['eCorreo'], $_SESSION['fInicio'], $_SESSION['fFin'], $fecha_string);
 
                 $confirmacion = 'Has alquilado nuestro ' . $_SESSION['coche']['marca'] . ' ' . $_SESSION['coche']['modelo'] . " durante $dias días.";
-                // var_dump($alquilado);
+                var_dump($alquilado);
             } else {
                 $confirmacion = 'No se pudo alquilar el coche, revise los errores e intentelo de nuevo';
                 // unset($errores);

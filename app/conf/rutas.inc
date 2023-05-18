@@ -23,5 +23,5 @@ $mapeoRutas =
     'registro' => array('controller' => 'app\AlquilerCoches\controlador\formulariosController', 'action' => 'registroCli'),
     'cliente' => array('controller' => 'app\AlquilerCoches\controlador\ClientesController', 'action' => 'coches'),
 
-    'coche' => array('controller' => 'app\AlquilerCoches\controlador\ClientesController', 'action' => 'alquilar'),
+    'coche' => array('controller' => 'app\AlquilerCoches\controlador\ClientesController', 'action' => 'reservar'),
   );
