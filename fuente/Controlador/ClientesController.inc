@@ -68,10 +68,10 @@ class clientesController
             $fin = strtotime($_SESSION['fFin']);
 
             $diferencia = abs($inicio - $fin); // valor absoluto
-            $dias = floor($diferencia / (60 * 60 * 24)); // Paso de segundos a días
+            $dias = floor($diferencia / (60 * 60)); // Paso de segundos a horas
 
             if ($dias < 1) {
-                $errores['alquilerMin'] = 'El alquiler mínimo es de 1 día';
+                $errores['alquilerMin'] = 'El alquiler mínimo es de 1 hora';
             }
 
             if ($_SESSION['coche']['estado'] != 'disponible') {
@@ -84,7 +84,7 @@ class clientesController
 
             if (empty($errores)) {
                 $fechaReserva = (new DateTime());
-                $fecha_string = $fechaReserva->format('Y-m-d H:i:s');
+                $fecha_string = $fechaReserva->format('Y-m-d');
 
                 // Guardar los valores en sesión
                 $_SESSION['ubiRecogida'] = $_POST['ubicaRecogida'];
@@ -108,7 +108,7 @@ class clientesController
 
         if (isset($_POST['okDevolver'])) {
             if ((new cochesRepositorio())->devolucion($_SESSION['coche']['matricula'])) {
-                $texto = "Has devuelto nuestro " . $_SESSION['coche']['marca'] . ' ' . $_SESSION['coche']['modelo'] . " al servicio técnico";
+            $texto = "Has devuelto nuestro " . $_SESSION['coche']['marca'] . ' ' . $_SESSION['coche']['modelo'] . " al servicio técnico";
             }
         }
 

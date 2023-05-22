@@ -27,21 +27,36 @@
             <td><?= $value['modelo'] ?></td>
             <td><?= $value['matricula'] ?></td>
             <td><?= $value['categoria'] ?></td>
-            <td><?= $recog = (new DateTime($value['Recogida']))->format('d/m/Y') ?></td>
-            <td><?= $devol = (new DateTime($value['Devolución']))->format('d/m/Y') ?></td>
+            <td><?= $recog = (new DateTime($value['Recogida']))->format('d/m/Y') ?> a las <?= $_SESSION['horaRecogida'] ?></td>
+            <td><?= $devol = (new DateTime($value['Devolución']))->format('d/m/Y') ?>a las <?= $_SESSION['horaDevolucion'] ?></td>
 
             <?php
-            $inicio = strtotime((new DateTime($value['Recogida']))->format('Y-m-d'));
-            $fin = strtotime((new DateTime($value['Devolución']))->format('Y-m-d'));
+            $inicio = strtotime((new DateTime($value['Recogida'] . ' ' . $_SESSION['horaRecogida']))->format('Y-m-d H:i'));
+            $fin = strtotime((new DateTime($value['Devolución'] . ' ' . $_SESSION['horaDevolucion']))->format('Y-m-d H:i'));
 
             $diferencia = abs($inicio - $fin); // valor absoluto
-            $dias = floor($diferencia / (60 * 60 * 24)); // Paso de segundos a días
 
-            //Calcular horas
+            $horas = array();
+            $horas[$value['matricula']] = floor($diferencia / (60 * 60)); // Paso de segundos a horas
+
+            $minutos = array();
+            $minutos[$value['matricula']] = floor(($diferencia / 60) % 60); // Obtener los minutos restantes
             ?>
 
-            <td><?= $dias ?> dias</td>
-            <td><?= $value['precio'] * $dias ?> €</td>
+            <?php if ($horas[$value['matricula']] >= 24 && $horas[$value['matricula']] % 24 === 0) : ?>
+                <?php $dias = $horas[$value['matricula']] / 24 ?>
+                <td><?= $dias ?> días</td>
+                <td><?= ($value['precio'] * $dias) ?> €</td>
+            <?php else : ?>
+                <?php if ($minutos[$value['matricula']] != 0) : ?>
+                    <td><?= $horas[$value['matricula']] ?>:<?= $minutos[$value['matricula']] ?> horas</td>
+                <?php else : ?>
+                    <td><?= $horas[$value['matricula']] ?> horas</td>
+                <?php endif ?>
+                <td><?= number_format(($value['precio'] / 24) * $horas[$value['matricula']], 2) ?> €</td>
+            <?php endif ?>
+
+
         </tr>
     <?php endforeach ?>
 </table>
