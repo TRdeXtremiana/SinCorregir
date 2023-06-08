@@ -95,11 +95,10 @@ class clientesController
 
                 $_SESSION['fInicio'] = $_SESSION['fInicio'] . ' ' . $_POST['horaDiaInicio'];
                 $_SESSION['fFin'] = $_SESSION['fFin'] . ' ' . $_POST['horaDiaDevolucion'];
-
+                var_dump($_SESSION['coche']);
                 $alquilado = (new cochesRepositorio)->reserva($_SESSION['coche']['matricula'], $_SESSION['cliente']['eCorreo'], $_SESSION['fInicio'], $_SESSION['fFin'], $fecha_string);
 
                 $confirmacion = 'Has alquilado nuestro ' . $_SESSION['coche']['marca'] . ' ' . $_SESSION['coche']['modelo'] . " durante $dias días.";
-                var_dump($alquilado);
             } else {
                 $confirmacion = 'No se pudo alquilar el coche, revise los errores e intentelo de nuevo';
                 // unset($errores);
@@ -108,7 +107,7 @@ class clientesController
 
         if (isset($_POST['okDevolver'])) {
             if ((new cochesRepositorio())->devolucion($_SESSION['coche']['matricula'])) {
-            $texto = "Has devuelto nuestro " . $_SESSION['coche']['marca'] . ' ' . $_SESSION['coche']['modelo'] . " al servicio técnico";
+                $texto = "Has devuelto nuestro " . $_SESSION['coche']['marca'] . ' ' . $_SESSION['coche']['modelo'] . " al servicio técnico";
             }
         }
 

@@ -1,5 +1,12 @@
 <?php
 ob_start() ?>
+
+<?php
+if (!isset($_SESSION['cliente']['nombre'])) {
+    header('Location: index.php?ctl=inicio');
+}
+?>
+
 <?php $_SESSION['usuario'] = 'cliente'; ?>
 
 <h1>Bienvenido, <?= $_SESSION['cliente']['nombre'] ?></h1>
@@ -46,10 +53,11 @@ ob_start() ?>
                     </thead>
                     <tbody>
                         <?php foreach ($filtro as $coche) : ?>
-                            <!-- < ?= var_dump($coche) ?> -->
+
                             <?php if ($coche['categoria'] === $valor['nombre']) : ?>
+                                <!-- < ?= var_dump($coche) ?> -->
                                 <tr>
-                                    <td><img src="web/imagenes/<?= $coche['categoria'] ?>/<?= $coche['foto'] ?>.jpg" alt="imagen de un <?= $coche['marca'] . ' ' . $coche['modelo'] ?>" width="100px"></td>
+                                    <td><img src="web/imagenes/<?= $coche['categoria'] ?>/<?= $coche['foto'] ?>" alt="imagen de un <?= $coche['marca'] . ' ' . $coche['modelo'] ?>" width="100px"></td>
                                     <td><?= $coche['marca'] ?></td>
                                     <td><?= $coche['modelo'] ?></td>
                                     <td><?= $coche['año'] ?></td>

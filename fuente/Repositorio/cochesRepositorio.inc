@@ -264,7 +264,6 @@ class cochesRepositorio
         }
     }
 
-
     public function devolucion(string $matricula): bool
     {
         $sql = "UPDATE coche
